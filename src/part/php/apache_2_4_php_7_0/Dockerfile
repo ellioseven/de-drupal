@@ -1,0 +1,1 @@
+FROM ellioseven/de_php:apache_2_4_php_7_0
