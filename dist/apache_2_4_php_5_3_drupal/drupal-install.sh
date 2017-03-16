@@ -4,7 +4,8 @@ set -e
 
 DRUPAL_CORE_DEPS="libpng-dev \
     libjpeg-dev \
-    libmysqlclient-dev"
+    libmysqlclient-dev \
+    libmcrypt-dev"
 
 DRUPAL_CORE_BUILD_DEPS="autoconf \
     file \
