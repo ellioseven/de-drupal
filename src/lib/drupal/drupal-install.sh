@@ -25,6 +25,7 @@ docker-php-ext-install gd --with-jpeg-dir --with-png-dir
 docker-php-ext-install opcache
 docker-php-ext-install pdo_mysql
 docker-php-ext-install zip
+docker-php-ext-install mcrypt
 docker-php-ext-remove
 
 apt-get -y remove --purge \
