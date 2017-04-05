@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Parallel needs to ensure bash is being used.
+# http://stackoverflow.com/questions/23814360/gnu-parallel-and-bash-functions-how-to-run-the-simple-example-from-the-manual
+export SHELL=$(type -p bash)
+
 set -e
 
 source ./etc/core.conf
@@ -18,4 +22,4 @@ export -f docker_build
 which /usr/bin/parallel > /dev/null
 
 mkdir -p ./${DIR_LOG}
-find ./dist -name Dockerfile -exec dirname {} \; | /usr/bin/time parallel --no-notice -a - docker_build
+find ./dist -name Dockerfile -exec dirname {} \; | /usr/bin/time parallel -a - docker_build
