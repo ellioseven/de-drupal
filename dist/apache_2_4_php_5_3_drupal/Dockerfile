@@ -9,19 +9,23 @@ RUN chmod +x /usr/bin/drupal-install.sh \
 
 USER app
 
+
 # @todo Experiment with --install-dir flag.
-RUN wget -q https://getcomposer.org/installer -O installer.php \
+RUN cd $HOME \
+  && wget -q https://getcomposer.org/installer -O installer.php \
   && php installer.php \
   && chmod +x composer.phar \
   && mv composer.phar $HOME/.local/bin/composer \
   && sed -i '1i PATH="$HOME/.composer/vendor/bin:$PATH"' $HOME/.bashrc \
-  && rm installer.php
+  && rm installer.php \
+  && . $HOME/.bashrc
 
 USER root
 
 USER app
 
-RUN mkdir -p $HOME/.local/opt/drush \
+RUN . $HOME/.bashrc \
+    && mkdir -p $HOME/.local/opt/drush \
     && cd $HOME/.local/opt/drush \
     && composer require drush/drush \
     && sed -i '1i PATH="$HOME/.local/opt/drush/vendor/bin:$PATH"' $HOME/.bashrc
