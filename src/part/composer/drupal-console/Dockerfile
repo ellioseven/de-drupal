@@ -1,4 +1,8 @@
-RUN mkdir -p $HOME/opt/drupal \
-    && cd $HOME/opt/drupal \
+USER app
+
+RUN mkdir -p $HOME/.local/opt/drupal \
+    && cd $HOME/.local/opt/drupal \
     && composer require drupal/console \
-    && sed -i '1i PATH="$HOME/opt/drupal/vendor/bin:$PATH"' $HOME/.bashrc
+    && sed -i '1i PATH="$HOME/.local/opt/drupal/vendor/bin:$PATH"' $HOME/.bashrc
+
+USER root

@@ -1,4 +1,8 @@
-RUN mkdir -p $HOME/opt/drush \
-    && cd $HOME/opt/drush \
+USER app
+
+RUN mkdir -p $HOME/.local/opt/drush \
+    && cd $HOME/.local/opt/drush \
     && composer require drush/drush \
-    && sed -i '1i PATH="$HOME/opt/drush/vendor/bin:$PATH"' $HOME/.bashrc
+    && sed -i '1i PATH="$HOME/.local/opt/drush/vendor/bin:$PATH"' $HOME/.bashrc
+
+USER root
