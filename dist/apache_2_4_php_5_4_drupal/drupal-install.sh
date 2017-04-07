@@ -21,6 +21,7 @@ apt-get update \
     $DRUPAL_CORE_DEPS \
     $DRUPAL_CORE_BUILD_DEPS
 
+# Install extensions.
 docker-php-ext-get
 docker-php-ext-install gd --with-jpeg-dir --with-png-dir
 docker-php-ext-install opcache
@@ -28,6 +29,9 @@ docker-php-ext-install pdo_mysql
 docker-php-ext-install zip
 docker-php-ext-install mcrypt
 docker-php-ext-remove
+
+# Install Xdebug.
+pecl install xdebug && echo "zend_extension=xdebug.so" >> $PHP_CONF
 
 apt-get -y remove --purge \
     $DRUPAL_BUILD_DEPS \

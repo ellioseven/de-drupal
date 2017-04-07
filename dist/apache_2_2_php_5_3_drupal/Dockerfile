@@ -9,7 +9,6 @@ RUN chmod +x /usr/bin/drupal-install.sh \
 
 USER app
 
-
 # @todo Experiment with --install-dir flag.
 RUN cd $HOME \
   && wget -q https://getcomposer.org/installer -O installer.php \
