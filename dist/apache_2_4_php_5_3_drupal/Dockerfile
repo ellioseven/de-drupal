@@ -7,6 +7,8 @@ RUN chmod +x /usr/bin/drupal-install.sh \
     && sh /usr/bin/drupal-install.sh \
     && rm /usr/bin/drupal-install.sh
 
+EXPOSE 9000
+
 USER app
 
 # @todo Experiment with --install-dir flag.
