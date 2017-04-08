@@ -31,7 +31,8 @@ docker-php-ext-install mcrypt
 docker-php-ext-remove
 
 # Install Xdebug.
-pecl install xdebug && echo "zend_extension=xdebug.so" >> $PHP_CONF
+pecl install xdebug \
+    && cat /tmp/xdebug.conf >> $PHP_CONF
 
 apt-get -y remove --purge \
     $DRUPAL_BUILD_DEPS \
