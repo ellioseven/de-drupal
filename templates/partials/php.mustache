@@ -1,0 +1,25 @@
+# Build PHP dependencies.
+RUN set -ex \
+	# Add build dependencies. \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		$DRUPAL_DEPS_RUN \
+		$DRUPAL_DEPS_BUILD \
+	&& rm -rf /var/lib/apt/lists/* \
+	# Configure 'gd' PHP extension. \
+	&& docker-php-ext-configure gd \
+		--with-jpeg-dir=/usr \
+		--with-png-dir=/usr \
+	# Build PHP extensions. \
+	&& docker-php-ext-install -j "$(nproc)" \
+		gd \
+		mbstring \
+		opcache \
+		pdo \
+		pdo_mysql \
+		zip \
+	# Remove build depdendencies. \
+	&& apt-get purge -y --auto-remove $DRUPAL_DEPS_BUILD
+
+# Get PHP development configuration.
+RUN wget -O /usr/local/etc/php.ini https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development

@@ -1,0 +1,9 @@
+# Install Xdebug extension.
+INCLUDE php/etc/xdebug.ini
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends $PHPIZE_DEPS \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& pecl channel-update pecl.php.net \
+	&& pecl install xdebug \
+	&& apt-get purge -y --auto-remove $PHPIZE_DEPS

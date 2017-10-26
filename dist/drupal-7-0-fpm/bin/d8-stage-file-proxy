@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Enable add configure stage file proxy module;
+
+# Exit on first error;
+set -e;
+
+# Load functions;
+source $HOME/.local/bin/functions/drupal.sh;
+
+# Check for Drupal installation;
+drupal-install;
+
+echo "Install Stage File Proxy";
+read -p "Press [ENTER] to continue: ";
+
+# Ask for origin URI;
+read -p "Proxy origin (eg: http://www.mysite.com): " ORIGIN;
+
+# Set origin configuration;
+drush en -y stage_file_proxy && drush config-set stage_file_proxy.settings origin $ORIGIN -y;

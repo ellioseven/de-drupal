@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Set file system configuration;
+
+# Exit on first error;
+set -e;
+
+# Load functions;
+source $HOME/.local/bin/functions/drupal.sh;
+
+# Check for Drupal installation;
+drupal-install;
+
+echo "Fix drupal installation file paths.";
+read -p "Press [ENTER] to continue: ";
+
+# Get current directory path;
+CURRENT=$(basename $(pwd));
+
+# Get parent directory path;
+PARENT=$(basename $(readlink -f ../));
+
+# Ensure we are in a multi-site directory;
+if [[ "$PARENT" != "sites" ]]; then
+  echo "Wrong directory.";
+  echo "Change directory to either default or your Drupal instance root.";
+  echo "EG: cd docroot/sites/example.com/";
+  exit;
+fi
+
+# Create and set file permissions for 'files' and 'files-private';
+mkdir -p files \
+  && chgrp -R app files \
+  && chmod -R g+w files \
+  && mkdir -p files-private \
+  && chgrp -R app files-private \
+  && chmod -R g+w files-private;
+
+# Set file path configuration;
+drush vset file_public_path sites/${CURRENT}/files \
+  && drush vset file_private_path sites/${CURRENT}/files-private \
+  && drush vset file_temporary_path /tmp;

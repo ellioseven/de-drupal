@@ -1,0 +1,37 @@
+ENV DRUPAL_DEPS_BUILD \
+	libjpeg62-turbo-dev \
+	libpng12-dev \
+	libpq-dev
+
+ENV DRUPAL_DEPS_RUN \
+	ca-certificates \
+	libjpeg62-turbo \
+	libpq5 \
+	mysql-client \
+	ssmtp \
+	wget
+
+# Create 'app' user.
+RUN groupadd --gid 1000 app \
+	&& useradd --uid 1000 --gid app --shell /bin/bash --create-home app \
+	&& mkdir -p /home/app/bin \
+	&& mkdir -p /home/app/.local/bin \
+	&& mkdir -p /home/app/.local/opt \
+	&& mkdir -p /home/app/src/docroot \
+	&& echo 'PATH=$HOME/bin:$PATH' >> /home/app/.bashrc \
+	&& echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
+	&& echo 'PATH=$HOME/.local/bin:$PATH' >> /home/app/.bashrc \
+	&& chown -R app:app /home/app
+
+# Switch PHP-FPM user to 'app'.
+RUN sed -i 's/www-data/app/g' /usr/local/etc/php-fpm.d/www.conf
+
+# Add vendor binaries to path.
+RUN echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
+	&& chown -R app:app /home/app
+
+# Add Drupal script.
+INCLUDE php/bin
+COPY bin/ /home/app/.local/bin/
+
+WORKDIR /home/app/src/docroot

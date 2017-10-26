@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Enable development mode;
+
+# Exit on first error;
+set -e;
+
+# Load functions;
+source $HOME/.local/bin/functions/drupal.sh;
+
+# Check for Drupal installation;
+drupal-install;
+
+echo "Enable Drupal development environment.";
+read -p "Press [ENTER] to continue: ";
+
+# Use Drupal Console 'dev' mode;
+drupal site:mode dev;
+
+# Enable devel and kint modules;
+# Set kint config;
+drush en devel \
+    && drush en kint \
+    && drush config-set devel.settings devel_dumper kint -y;

@@ -1,0 +1,4 @@
+# Install composer to 'app' user.
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+	&& php composer-setup.php --filename=composer --install-dir=/home/app/bin \
+	&& php -r "unlink('composer-setup.php');"
