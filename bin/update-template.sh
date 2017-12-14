@@ -6,7 +6,7 @@ set -e
 # Treat unset variables as an error when performing parameter expansion.
 set -u
 
-REPOSITORY="git@bitbucket.org:DigitalGarden/docker-image-templating-system.git"
+REPOSITORY="git@github.com:ellioseven/docker-image-templating-system.git"
 PROJECT_DIR="$(pwd)"
 
 cd "$(mktemp -d)"
