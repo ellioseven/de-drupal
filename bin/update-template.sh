@@ -27,3 +27,4 @@ rsync \
 # Overwrite version.
 VERSION="$(git -C ./src describe --abbrev=0 --tags)"
 echo $VERSION > $PROJECT_DIR/.version
+

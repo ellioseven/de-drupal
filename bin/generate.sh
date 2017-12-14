@@ -13,7 +13,7 @@ function _mustache () {
 	 docker run \
 		  --volume "$(pwd):$PREFIX" \
 		  --workdir $PREFIX/templates \
-		  -ti digitalgardensydney/mustache /usr/bin/mustache $*
+		  -ti ellioseven/mustache /usr/bin/mustache $*
 }
 
 # Refresh distribution directory.
