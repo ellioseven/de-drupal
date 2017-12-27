@@ -7,12 +7,17 @@ ENV DRUPAL_DEPS_BUILD \
 	libpq-dev
 
 ENV DRUPAL_DEPS_RUN \
+	bzip2 \
 	ca-certificates \
+	git \
 	libjpeg62-turbo \
 	libpq5 \
 	mysql-client \
+	openssh-client \
+	rsync \
 	ssmtp \
-	wget
+	wget \
+	zip
 
 # Create 'app' user.
 RUN groupadd --gid 1000 app \
