@@ -36,6 +36,10 @@ RUN echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
 # Add Drupal script.
 COPY bin/ /home/app/.local/bin/
 
+# Create default web root.
+RUN mkdir -p /home/app/src/docroot \
+    && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
+
 WORKDIR /home/app/src/docroot
 # Build PHP dependencies.
 RUN set -ex \

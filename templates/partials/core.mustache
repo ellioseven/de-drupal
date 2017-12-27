@@ -34,4 +34,8 @@ RUN echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
 INCLUDE php/bin
 COPY bin/ /home/app/.local/bin/
 
+# Create default web root.
+RUN mkdir -p /home/app/src/docroot \
+    && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
+
 WORKDIR /home/app/src/docroot
