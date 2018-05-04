@@ -1,6 +1,6 @@
 # Development Environment - Drupal
 
-- DITS: 0.0.1
+- DITS: 0.0.4
 
 ## Helper Scripts
 
