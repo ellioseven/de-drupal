@@ -81,7 +81,7 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends $PHPIZE_DEPS \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& pecl channel-update pecl.php.net \
-	&& pecl install xdebug \
+	&& pecl install xdebug-2.5.5 \
 	&& apt-get purge -y --auto-remove $PHPIZE_DEPS
 # Set sendmail to mail:1025 (host:port).
 # Used for linking mail containers.
