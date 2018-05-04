@@ -1,5 +1,5 @@
 FROM php:7.1-fpm
-MAINTAINER it@digitalgarden.com.au
+MAINTAINER elliot.mitchum@ellioseven.com.au
 
 ENV DRUPAL_DEPS_BUILD \
 	libjpeg62-turbo-dev \
@@ -45,6 +45,10 @@ COPY bin/ /home/app/.local/bin/
 # Create default web root.
 RUN mkdir -p /home/app/src/docroot \
     && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
+
+RUN mkdir -p /home/app/.ssh \
+	&& touch /home/app/.ssh/known_hosts \
+	&& chown -R app:app /home/app/.ssh
 
 WORKDIR /home/app/src/docroot
 # Build PHP dependencies.

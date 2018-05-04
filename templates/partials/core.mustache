@@ -44,4 +44,8 @@ COPY bin/ /home/app/.local/bin/
 RUN mkdir -p /home/app/src/docroot \
     && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
 
+RUN mkdir -p /home/app/.ssh \
+	&& touch /home/app/.ssh/known_hosts \
+	&& chown -R app:app /home/app/.ssh
+
 WORKDIR /home/app/src/docroot
