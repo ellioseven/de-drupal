@@ -24,17 +24,10 @@ RUN groupadd --gid 1000 app \
 	&& mkdir -p /home/app/.local/bin \
 	&& mkdir -p /home/app/.local/opt \
 	&& mkdir -p /home/app/src/docroot \
-	&& echo 'PATH=$HOME/bin:$PATH' >> /home/app/.bashrc \
-	&& echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
-	&& echo 'PATH=$HOME/.local/bin:$PATH' >> /home/app/.bashrc \
 	&& chown -R app:app /home/app
 
 # Switch PHP-FPM user to 'app'.
 RUN sed -i 's/www-data/app/g' /usr/local/etc/php-fpm.d/www.conf
-
-# Add vendor binaries to path.
-RUN echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
-	&& chown -R app:app /home/app
 
 # Add Drupal script.
 INCLUDE php/bin
@@ -49,3 +42,9 @@ RUN mkdir -p /home/app/.ssh \
 	&& chown -R app:app /home/app/.ssh
 
 WORKDIR /home/app/src/docroot
+
+ENV PATH /home/app/bin:$PATH
+ENV PATH /home/app/.local/bin:$PATH
+ENV PATH /home/app/src/vendor/bin:$PATH
+ENV PATH /home/app/src/docroot/vendor/bin:$PATH
+ENV PATH /home/app/src/.composer/vendor/bin:$PATH

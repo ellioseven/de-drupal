@@ -27,17 +27,10 @@ RUN groupadd --gid 1000 app \
 	&& mkdir -p /home/app/.local/bin \
 	&& mkdir -p /home/app/.local/opt \
 	&& mkdir -p /home/app/src/docroot \
-	&& echo 'PATH=$HOME/bin:$PATH' >> /home/app/.bashrc \
-	&& echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
-	&& echo 'PATH=$HOME/.local/bin:$PATH' >> /home/app/.bashrc \
 	&& chown -R app:app /home/app
 
 # Switch PHP-FPM user to 'app'.
 RUN sed -i 's/www-data/app/g' /usr/local/etc/php-fpm.d/www.conf
-
-# Add vendor binaries to path.
-RUN echo 'PATH=$HOME/src/docroot/vendor/bin:$PATH' >> /home/app/.bashrc \
-	&& chown -R app:app /home/app
 
 # Add Drupal script.
 COPY bin/ /home/app/.local/bin/
@@ -51,6 +44,12 @@ RUN mkdir -p /home/app/.ssh \
 	&& chown -R app:app /home/app/.ssh
 
 WORKDIR /home/app/src/docroot
+
+ENV PATH /home/app/bin:$PATH
+ENV PATH /home/app/.local/bin:$PATH
+ENV PATH /home/app/src/vendor/bin:$PATH
+ENV PATH /home/app/src/docroot/vendor/bin:$PATH
+ENV PATH /home/app/src/.composer/vendor/bin:$PATH
 # Build PHP dependencies.
 RUN set -ex \
 	# Add build dependencies. \
@@ -94,3 +93,7 @@ RUN echo "sendmail_path = /usr/sbin/sendmail -S mail:1025" >> /usr/local/etc/php
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --filename=composer --install-dir=/home/app/bin \
 	&& php -r "unlink('composer-setup.php');"
+USER app
+RUN cd /home/app \
+  && composer global require hirak/prestissimo
+USER root
