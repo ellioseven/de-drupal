@@ -78,7 +78,8 @@ RUN set -ex \
 	&& apt-get purge -y --auto-remove $DRUPAL_DEPS_BUILD
 
 # Get PHP development configuration.
-RUN wget -O /usr/local/etc/php.ini https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development
+ADD https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development /usr/local/etc/php/php.ini
+RUN chmod 755 /usr/local/etc/php/php.ini
 # Set recommended opcache.ini settings.
 # See https://secure.php.net/manual/en/opcache.installation.php.
 COPY opcache-recommended.ini /usr/local/etc/php/conf.d/opcache-recommended.ini
