@@ -41,6 +41,11 @@ ENV PATH /home/app/.de-drupal/bin:$PATH
 RUN mkdir -p /home/app/src/docroot \
     && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
 
+# Configure ssmtp.
+INCLUDE php/etc/ssmtp.conf
+ADD ssmtp.conf /etc/ssmtp/ssmtp.conf
+RUN chmod 644 /etc/ssmtp/ssmtp.conf
+
 RUN mkdir -p /home/app/.ssh \
 	&& touch /home/app/.ssh/known_hosts \
 	&& chown -R app:app /home/app/.ssh

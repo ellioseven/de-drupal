@@ -43,6 +43,10 @@ ENV PATH /home/app/.de-drupal/bin:$PATH
 RUN mkdir -p /home/app/src/docroot \
     && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
 
+# Configure ssmtp.
+ADD ssmtp.conf /etc/ssmtp/ssmtp.conf
+RUN chmod 644 /etc/ssmtp/ssmtp.conf
+
 RUN mkdir -p /home/app/.ssh \
 	&& touch /home/app/.ssh/known_hosts \
 	&& chown -R app:app /home/app/.ssh
@@ -79,6 +83,7 @@ RUN set -ex \
 
 # Get PHP development configuration.
 ADD https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development /usr/local/etc/php/php.ini
+RUN echo "sendmail_path = /usr/sbin/sendmail -t -i" >> /usr/local/etc/php/php.ini
 RUN chmod 755 /usr/local/etc/php/php.ini
 # Set recommended opcache.ini settings.
 # See https://secure.php.net/manual/en/opcache.installation.php.
@@ -91,9 +96,6 @@ RUN apt-get update \
 	&& pecl channel-update pecl.php.net \
 	&& pecl install xdebug-2.5.5 \
 	&& apt-get purge -y --auto-remove $PHPIZE_DEPS
-# Set sendmail to mail:1025 (host:port).
-# Used for linking mail containers.
-RUN echo "sendmail_path = /usr/sbin/sendmail -S mail:1025" >> /usr/local/etc/php.ini
 # Install composer to 'app' user.
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --filename=composer --install-dir=/home/app/bin \
