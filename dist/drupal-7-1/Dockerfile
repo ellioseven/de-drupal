@@ -32,13 +32,6 @@ RUN groupadd --gid 1000 app \
 # Switch PHP-FPM user to 'app'.
 RUN sed -i 's/www-data/app/g' /usr/local/etc/php-fpm.d/www.conf
 
-# Add Drupal scripts.
-USER app
-RUN mkdir -p /home/app/.de-drupal/bin
-COPY bin/ /home/app/.de-drupal/bin
-USER root
-ENV PATH /home/app/.de-drupal/bin:$PATH
-
 # Create default web root.
 RUN mkdir -p /home/app/src/docroot \
     && echo '<?php phpinfo();' >> /home/app/src/docroot/index.php
