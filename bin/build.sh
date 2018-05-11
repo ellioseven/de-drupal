@@ -14,7 +14,7 @@ function _build {
   ID="$(basename $DIR)" # Name of Dockerfile parent directory.
   LOG_PATH="$(readlink -f ./log/$ID.log)"
   echo "Building: $DOCKERFILE"
-  docker build -t $ID $DIR > $LOG_PATH 2>&1
+  docker build --no-cache -t $ID $DIR > $LOG_PATH 2>&1
   echo "Finished: $DOCKERFILE. View log at $LOG_PATH"
 }
 

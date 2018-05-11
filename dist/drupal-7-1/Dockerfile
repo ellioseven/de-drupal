@@ -97,10 +97,15 @@ RUN apt-get update \
 	&& pecl install xdebug \
 	&& apt-get purge -y --auto-remove $PHPIZE_DEPS
 # Install composer to 'app' user.
+# .composer.tmp will be merged to .composer on entrypoint.
+USER app
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --filename=composer --install-dir=/home/app/bin \
-	&& php -r "unlink('composer-setup.php');"
-USER app
-RUN cd /home/app \
-  && composer global require hirak/prestissimo
+	&& php -r "unlink('composer-setup.php');" \
+	&& composer global require hirak/prestissimo \
+	&& mv /home/app/.composer /home/app/.composer.tmp
 USER root
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["php-fpm"]
