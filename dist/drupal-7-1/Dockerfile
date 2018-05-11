@@ -57,7 +57,7 @@ ENV PATH /home/app/bin:$PATH
 ENV PATH /home/app/.local/bin:$PATH
 ENV PATH /home/app/src/vendor/bin:$PATH
 ENV PATH /home/app/src/docroot/vendor/bin:$PATH
-ENV PATH /home/app/src/.composer/vendor/bin:$PATH
+ENV PATH /home/app/.composer/vendor/bin:$PATH
 # Build PHP dependencies.
 RUN set -ex \
 	# Add build dependencies. \
