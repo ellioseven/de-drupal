@@ -4,7 +4,7 @@ set -e
 
 # Merge default global composer packages.
 function _merge () {
-  rsync -avzh /home/app/.composer.tmp/ /home/app/.composer
+  rsync -azh /home/app/.composer.tmp/ /home/app/.composer
   touch /home/app/.composer/.lock
   chown -R app:app /home/app/.composer
 }
