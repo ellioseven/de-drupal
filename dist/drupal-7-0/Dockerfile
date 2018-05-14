@@ -101,4 +101,5 @@ USER root
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+USER app
 CMD ["php-fpm"]
